@@ -132,7 +132,7 @@
     }
 
     let unscopedToken = 'Z2hwX05lcnV2RUYzRmx6M3o5YnFjQWZuOGpJQnJMR3lEMTNmYjYyVw=='
-    let siteConfig, baseUrl, acct, repo, ref, contentSource, basePath
+    let siteConfig, baseUrl, acct, repo, ref, contentSource, basePath, assetsBaseUrl
     let isGhpSite = false
     let componentsRoot = 'components'
     let componentPrefix = 've-'
@@ -143,14 +143,13 @@
     if (referrerUrl) {
       console.log(`referrer=${referrerUrl}`)
       const referrer = parseUrl(referrerUrl)
-      console.log(referrer)
       if (referrer.host === 'github.com') {
         const referrerPath = referrer.pathname.slice(1).split('/')
         const ghAcct = referrerPath[0]
         const ghRepo = referrerPath[1]
         const ghBranch = referrerPath.length > 2 ? referrerPath[3] : 'main'
         const pathStart = 4
-        const pathEnd = referrerPath[referrerPath.length-1] === 'README.md' ? referrerPath.length-1 : referrerPath.length
+        const pathEnd = referrerPath[referrerPath.length-1] === 'README.md' || referrerPath[referrerPath.length-1] === 'index.md' ? referrerPath.length-1 : referrerPath.length
         const ghPath = referrerPath.slice(pathStart, pathEnd).join('/').replace(/\.md$/, '')
         const redirect = `${window.location.origin}/${ghAcct}/${ghRepo}/${ghPath}${ghBranch === 'master' || ghBranch === 'main' ? '' : '?ref=' + ghBranch}`
         console.log(`redirect=${redirect}`)
@@ -168,17 +167,15 @@
       basePath = ''
     } else {
       if (window.location.hostname.indexOf('github.io') > 0) {
-        isGhpSite = true;
+        isGhpSite = true
         [acct, repo] = window.location.href.replace(/\.github\.io/,'').split('/').slice(2,4)
         ref = 'main'
         assetsBaseUrl = `https://${acct}.github.io/${repo}`
-        // assetsBaseUrl = `https://gitcdn.link/repo/${acct}/${repo}/${ref}`
         basePath = `/${repo}`
       } else {
         acct = 'jstor-labs'
         repo = 'juncture'
         ref = 'main'
-        // baseUrl = window.location.origin
         assetsBaseUrl = `https://gitcdn.link/repo/${acct}/${repo}/${ref}`
         basePath = ''
       }
@@ -315,10 +312,7 @@
               }
             } else {
               let resp = await fetch(`${window.location.origin}${path}`)
-              if (resp.ok) {
-                resp = await resp.text()
-                return resp
-              }
+              if (resp.ok) return await resp.text()
             }
             return null
           },
@@ -328,10 +322,9 @@
             path = path || window.location.pathname.slice(basePath.length) || '/'
             if (path.slice(-1) !== '/') path += '/'
             console.log(`loadEssay: contentSource.baseUrl=${contentSource.baseUrl} basePath=${basePath} path=${path}`)
-            let pathsToTry = [`${path}README.md`, `${path.slice(0,-1)}.md`]
+            let pathsToTry = [`${path}README.md`, `${path.slice(0,-1)}.md`, `${path}index.md`]
             for (let i = 0; i < pathsToTry.length; i++) {
               let markdown = await this.getMarkdown(pathsToTry[i])
-              console.log('markdown', markdown)
               if (markdown) {
                 this.markdown = markdown
                 break
@@ -356,7 +349,7 @@
                 this.tagEntities()
                 this.addPopups()
                 this.convertLinks(this.$refs.essay)
-                  if (this.anchor) {
+                if (this.anchor) {
                   let anchorElem = document.getElementById(this.anchor)
                   if (anchorElem) {
                     // anchorElem.scrollIntoView({block:'start'})
@@ -366,6 +359,7 @@
                   this.anchor = null
                 } else {
                   this.active = segments.length > 0 ? segments[0].dataset.id : null
+                  this.$refs.essay.scrollTop = 0
                 }
               })
               this.params = Array.from(document.getElementById('essay').querySelectorAll('param'))
@@ -396,7 +390,7 @@
               Array.from(cardsSection.querySelectorAll('section')).forEach(card => {
                 ['img', 'a', 'ul'].forEach(selector => {
                   let el = card.querySelector(selector)
-                  card.appendChild(el)
+                  if (el) card.appendChild(el)
                 })
                 let segments = []
                 Array.from(card.querySelectorAll('.segment')).forEach(seg => {
@@ -409,7 +403,7 @@
                 if (segments.length > 0) {
                   let segsDiv = document.createElement('div')
                   card.appendChild(segsDiv)
-                  segments.forEach(seg => segsDiv.appendChild(segments))
+                  segments.forEach(seg => segsDiv.appendChild(seg))
                 }
               })
             })
@@ -933,12 +927,12 @@
   
     // Gets a list of available components
     async function getMergedComponentsList(root, acct, repo, ref, contentSource) {
-      console.log(`getMergedComponentsList: root=${root} acct=${acct} repo=${repo} ref=${ref}`, contentSource)
       let componentsList = await getComponentsList(root, acct, repo, ref)
       if (assetsBaseUrl !== contentSource.baseUrl) {
         let extras = await getComponentsList(root, contentSource.acct, contentSource.repo, contentSource.ref)
         componentsList = [...extras, ...componentsList]
       }
+      console.log(`getMergedComponentsList: root=${root} acct=${acct} repo=${repo} ref=${ref}`, contentSource, componentsList)
       return componentsList
     }
   
@@ -991,7 +985,7 @@
       }
       if (pathElems[0] === contentSource.repo) pathElems = pathElems.slice(1)
       converted = `${assetsBaseUrl}/${pathElems.join('/')}`
-      console.log(`convertURL: current=${current} converted=${converted} path=${path} pathname=${window.location.pathname} assetsBaseUrl=${assetsBaseUrl} pathElems=${pathElems}`)
+      // console.log(`convertURL: current=${current} converted=${converted} path=${path} pathname=${window.location.pathname} assetsBaseUrl=${assetsBaseUrl} pathElems=${pathElems}`)
       return converted
     }
   </script>
