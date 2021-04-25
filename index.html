@@ -330,7 +330,7 @@
             console.log(`loadEssay: contentSource.baseUrl=${contentSource.baseUrl} basePath=${basePath} path=${path}`)
             let pathsToTry = [`${path}README.md`, `${path.slice(0,-1)}.md`]
             for (let i = 0; i < pathsToTry.length; i++) {
-              let markdown = this.getMarkdown(pathsToTry[i])
+              let markdown = awaut this.getMarkdown(pathsToTry[i])
               console.log('markdown', markdown)
               if (markdown) {
                 this.markdown = markdown
