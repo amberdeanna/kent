@@ -315,7 +315,10 @@
               }
             } else {
               let resp = await fetch(`${window.location.origin}${path}`)
-              if (resp.ok) return await resp.text()
+              if (resp.ok) {
+                resp = await resp.text()
+                return resp
+              }
             }
             return null
           },
