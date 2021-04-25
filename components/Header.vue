@@ -1,151 +1,82 @@
+
 <template>
-  <v-card tile class="overflow-hidden">
-    
-    <v-navigation-drawer app v-if="nav.length > 0" v-model="drawer" style="z-index:201 !important;">
-      <v-layout justify-space-between column fill-height>
-        <v-list dense v-cloak>
-          <v-list-item v-for="(menuItem, i) in nav" :key="i" @click="menuItemClicked(menuItem.path)" v-if="menuItem.enabled">
-              <v-list-item-action><v-icon>{{menuItem.icon}}</v-icon></v-list-item-action>
-              <v-list-item-content><v-list-item-title>{{menuItem.title}}</v-list-item-title></v-list-item-content>
-          </v-list-item>
-        </v-list>
+  <div ref="header" id="header" class="header" :style="containerStyle">
+    <nav>
+      <div id="menuToggle">
+        <input type="checkbox" />
+        <span></span>
+        <span></span>
+        <span></span>
+        <ul id="menu">
+          <li @click="nav('/')">
+            <i :class="`fas fa-home`"></i>Home
+          </li>
+          <template v-for="item in siteConfig.nav">
+            <li :key="item.path" @click="nav(item.path)">
+              <i :class="`fas fa-${item.icon}`"></i>{{item.label}}
+            </li>
+          </template>
+          <li @click="nav('viewMarkdown')">
+            <i class="fas fa-file-code"></i>View page markdown
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-        <v-list dense v-cloak justify-end>
-          <v-divider></v-divider>
+    <div class="title-bar">
+      <div class="title" v-html="title"></div>
+      <div class="author" v-html="author"></div>
+    </div>
 
-          <v-list-item @click="drawer=false; viewMarkdown()">
-            <v-list-item-action><v-icon>mdi-code-tags</v-icon></v-list-item-action>
-            <v-list-item-content><v-list-item-title>View page markdown</v-list-item-title></v-list-item-content>
-          </v-list-item>
-          <!--
-          <v-list-item @click="drawer=false; editMarkdown('default')">
-            <v-list-item-action><v-icon>mdi-pencil-outline</v-icon></v-list-item-action>
-            <v-list-item-content><v-list-item-title>Edit page</v-list-item-title></v-list-item-content>
-          </v-list-item>
-          -->
-          <v-list-item @click="drawer=false; editMarkdown('stackedit')">
-            <v-list-item-action v-if="siteConfig.branch !== 'master'"><v-icon>mdi-pencil-outline</v-icon></v-list-item-action>
-            <v-list-item-content><v-list-item-title>Edit page</v-list-item-title></v-list-item-content>
-          </v-list-item>
-          <v-divider></v-divider>
-          <v-list-item><v-list-item-content>App version: {{appVersion}}</v-list-item-content></v-list-item>        
-          <v-list-item><v-list-item-content>Lib version: {{libVersion}}</v-list-item-content></v-list-item>
-          <v-divider></v-divider>
-          <!--
-          <v-list-item>
-            <span @click="drawer=false; editMarkdown('stackedit')" style="padding-right:18px; cursor:pointer;"><v-icon style="color:#ccc;">mdi-pencil-outline</v-icon></span>
-          </v-list-item>
-          -->
-        </v-list> 
-
-      </v-layout>
-    </v-navigation-drawer>
-
-    <v-app-bar
-      id="header"
-      v-mutate.attr="onMutate"
-      app dark prominent
-      elevate-on-scroll shrink-on-scroll
-      elevation="6"
-      :src="banner"
-      :height="bannerHeight"
-      scroll-target="#scrollableContent"
-      :scroll-threshold="bannerHeight * 0.9"
-      style="min-height: 104px;"
-    >
-
-      <v-app-bar-nav-icon large @click.stop="drawer = !drawer" style="padding:0; margin:6px 0 0 12px; z-index:100; background:rgba(0, 0, 0, .30);"></v-app-bar-nav-icon>
-
-      <v-toolbar-title v-cloak>
-        
-        <v-container>
-          
-          <v-row style="margin-left:60px; height:100%;" no-gutters>
-
-            <v-col cols="12" sm="9">
-              <h3>{{title}}</h3>
-              <p class="author" v-html="author"></p>
-            </v-col>
-
-            <v-col class="align-end" cols="12" sm="3" style="margin-top:6px; text-align:right;">
-            </v-col>
-
-          </v-row>
-
-          <v-row>
-            <v-col cols="12" sm="12" style="padding:3px; margin:0;">
-            <v-progress-linear v-model="progress" height="7" color="#70CB2B"></v-progress-linear>
-            </v-col>
-          </v-row>
-
-        </v-container>
-      </v-toolbar-title>
-    </v-app-bar>
-  </v-card>
+  </div>
 </template>
 
 <script>
+  const defaultBanner = 'https://picsum.photos/id/403/1000/400?blur=1'
+
   module.exports = {
+    name: 've-header',
     props: {
-      essayConfig: { type: Object, default: function(){ return {}} },
-      siteConfig: { type: Object, default: function(){ return {}} },
-      progress: { type: Number, default: 0 },
-      nav: { type: Array, default: function(){ return []} },
-      appVersion: { type: String },
-      libVersion: { type: String }
+      active: { type: Boolean, default: true },
+      scrollTop: { type: Number, default: 0 },
+      essayConfig: { type: Object, default: () => ({}) },
+      siteConfig: { type: Object, default: () => ({}) }
     },    
     data: () => ({
-      drawer: false,
-      lastHeight: undefined
-    }),
+      dependencies: [],
+    }),    
     computed: {
-      essayConfigLoaded() { return this.essayConfig !== null },
+      containerStyle() { return { 
+        height: this.active ? `${this.scrollTop < 400 ? 400 - this.scrollTop : 0}px` : '0',
+        backgroundColor: 'white',
+        backgroundImage: `url(${this.essayConfig.banner || this.siteConfig.banner || defaultBanner})`
+      } },
       banner() { return this.essayConfigLoaded ? (this.essayConfig.banner || this.siteConfig.banner) : null },
       bannerHeight() { return this.essayConfig && this.essayConfig.bannerHeight || this.siteConfig.bannerHeight || 400 },
-      title() { return this.essayConfigLoaded ? (this.essayConfig.title || this.siteConfig.title) : null },
-      author() { return (this.essayConfigLoaded && this.essayConfig.author) || '&nbsp;' },
-      numMaps() { return (this.essayConfigLoaded && this.essayConfig['num-maps']) },
-      numImages() { return (this.essayConfigLoaded && this.essayConfig['num-images']) },
-      numSpecimens() { return (this.essayConfigLoaded && this.essayConfig['num-specimens']) },
-      numPrimarySources() { return (this.essayConfigLoaded && this.essayConfig['num-primary-sources']) },
-      hasStats() { return this.numMaps || this.numImages || this.numSpecimens || this.numPrimarySources }
+      title() { return this.essayConfig.title || this.siteConfig.title },
+      author() { return this.essayConfig.author || this.siteConfig.tagline },
     },
-    mounted() {
-      document.getElementById('header').addEventListener('wheel', this.throttle(this.scrollContent, 40))
-    },
+    mounted() { this.loadDependencies(this.dependencies, 0, this.init) },
     methods: {
-      onMutate(mutations) {
-        const mutation = mutations[mutations.length - 1]
-        if (mutation.target && mutation.target.clientHeight !== this.lastHeight) {
-          this.$emit('header-height', mutation.target.clientHeight)
-          this.lastHeight = mutation.target.clientHeight
-        }
+      nav(item) {
+        document.querySelector('#menuToggle input').checked = false // close drawer
+        this.$emit('menu-item-clicked', item)
+      }
+    },
+    watch: {
+      siteConfig: {
+        handler: function (config) { console.log(`${this.$options.name}.siteConfig`, config) },
+        immediate: true
       },
-      menuItemClicked(file) {
-        this.drawer = false
-        this.$emit('menu-item-clicked', file)
+      essayConfig: {
+        handler: function (config) { console.log(`${this.$options.name}.essayConfig`, config) },
+        immediate: true
       },
-      viewMarkdown() {
-        this.$emit('view-markdown')
-      },
-      editMarkdown(editor) {
-        this.$emit('edit-markdown', editor)
-      },
-      throttle(callback, interval) {
-        let enableCall = true
-        return function(...args) {
-          if (!enableCall) return
-          enableCall = false
-          callback.apply(this, args)
-          setTimeout(() => enableCall = true, interval)
-        }
-      },
-      scrollContent(e) {
-        const wheelDelta = e.wheelDelta
-        const scrollableContent = document.getElementById('scrollableContent')
-        if (scrollableContent) {
-          scrollableContent.scrollTo(0, scrollableContent.scrollTop - wheelDelta)
-        }
+      scrollTop: {
+        handler: function (scrollTop) { 
+          // console.log(`${this.$options.name}.scrollTop`, scrollTop) 
+        },
+        immediate: true
       }
     }
   }
@@ -155,48 +86,200 @@
 
   [v-cloak] { display: none; }
 
-  #header {
-    z-index: 200;
-  }
-
-  .v-toolbar__content {
+  body {
+    margin: 0;
     padding: 0;
+    background-color: white;
+    color: #444;
   }
 
-  .v-toolbar__title {
-    width: 100%;
+  .header {
+    font-family: Roboto, sans-serif;
+    font-size: 1rem;
+    min-height: 90px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+    margin: 0;
+    color: #444;
+  }
+
+  .title-bar {
+    display: grid;
+    align-items: stretch;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+      "title"
+      "author";
     color: white;
     background-color: rgba(0, 0, 0, .6);
-    padding: 0 !important;
+    /* padding-top: 14px; */
     position: absolute;
-    top: calc(100% - 104px);
-    min-height: 104px;
+    top: calc(100% - 100px);
+    height: 100px;
+    width: 100%;
+    font-weight: bold;
   }
 
-  .v-toolbar__title h3 {
-    font-size: 2.0rem;
-    margin: 12px 0 6px 12px;
+  .title {
+    grid-area: title;
+    font-size: min(8vw, 2em);
+    margin: 0 0 0 22px;
+    padding: 22px 0 0 50px;
   }
-
-  .v-toolbar__title .container {
-    padding: 0;
-    max-width: none;
-  }
-
-  .stats {
-    font-size: 1.0rem !important;
-    line-height: 1.2rem !important;
-    margin-right: 20px !important;
-
-  }
-
-  .v-toolbar__image .v-image, .v-toolbar__content, #header {
-    min-height: 104px!important;
-  }
-
   .author {
-    font-size: 1.25rem;
-    margin: 6px 12px;
+    grid-area: author;
+    font-size: min(6vw, 1.3em);
+    margin: 0 0 0 22px;
+    padding: 0 0 6px 50px;
+  }
+
+  #menuToggle a {
+    text-decoration: none;
+    color: #232323;
+    transition: color 0.3s ease;
+  }
+
+  #menuToggle a:hover {
+    color: tomato;
+  }
+
+  #menuToggle input {
+    display: block;
+    width: 40px;
+    height: 32px;
+    position: absolute;
+    top: -7px;
+    left: -5px;
+    cursor: pointer;
+    opacity: 0; /* hide this */
+    z-index: 2; /* and place it over the hamburger */
+    -webkit-touch-callout: none;
+  }
+
+  /*
+  * Just a quick hamburger
+  */
+  #menuToggle span {
+    display: block;
+    width: 30px;
+    height: 4px;
+    margin-bottom: 4px;
+    position: relative;
+    background: #cdcdcd;
+    border-radius: 3px;
+    z-index: 1;
+    transform-origin: 4px 0px;
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                opacity 0.55s ease;
+  }
+
+  #menuToggle span:first-child {
+    transform-origin: 0% 0%;
+  }
+
+  #menuToggle span:nth-last-child(2) {
+    transform-origin: 0% 100%;
+  }
+
+  /* 
+  * Transform all the slices of hamburger
+  * into a crossmark.
+  */
+  #menuToggle input:checked ~ span {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: #232323;
+  }
+
+  /*
+  * But let's hide the middle one.
+  */
+  #menuToggle input:checked ~ span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+
+  /*
+  * Ohyeah and the last one should go the other direction
+  */
+  #menuToggle input:checked ~ span:nth-last-child(2) {
+    transform: rotate(-45deg) translate(0, -1px);
+  }
+
+  /*
+  * Make this absolute positioned
+  * at the top left of the screen
+  */
+  #menu {
+    position: absolute;
+    width: 230px;
+    margin: -100px 0 0 -50px;
+    padding: 120px 50px 10px 45px;
+    background: #ededed;
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+    transform-origin: 0% 0%;
+    transform: translate(-100%, 0);
+    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  #menu li {
+    display: flex;
+    padding: 0.5em 0;
+    font-size: 1.1em;
+  }
+
+  #menu li i {
+    width: 20px;
+    margin-right: 10px;
+    text-align: center;
+  }
+
+  #menu li:hover {
+    cursor: pointer;
+    color: #1976d2;
+  }
+
+  #menu li svg {
+    min-width: 1.5em;
+    margin-right: 10px;
+    margin-top: 6px;
+    /* font-weight: bold; */
+    font-size: 1em;
+  }
+
+  /*
+  * And let's slide it in from the left
+  */
+  #menuToggle input:checked ~ ul {
+    transform: none;
+  }
+
+  #menuToggle {
+    display: block;
+    position: relative;
+    top: 20px;
+    /*left: 30px;*/
+    margin-left: 20px;
+    z-index: 1;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .app-version {
+    font-size: 0.9rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    font-weight: bold;
   }
 
 </style>
