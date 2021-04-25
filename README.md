@@ -9,6 +9,8 @@ This site provides a set of themed essays about Kent, a county in South East Eng
 
 # Featured essays
 
+# {.cards}
+
 ##
 [**Mobile Landscapes - Finding Kent Dickensian**](/dickens/mobile-landscapes)
 
@@ -64,6 +66,8 @@ It isn’t perhaps surprising that Derek Jarman should have fallen in love with 
 
 # Essays by period
 
+# {.cards}
+
 ##
 [**16th century**](/16c)
 
@@ -107,6 +111,8 @@ Dover and Folkestone become the gateway to the Western Front during WW1. Seaside
 Regeneration and the rise of the DFL.
 
 # Essays by theme
+
+# {.cards}
 
 ##
 [**Landscapes**](/landscape)
