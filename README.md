@@ -25,7 +25,7 @@ You’ll need a map because there are no signposts ... There are witnesses of co
 
 - author: Simone Blandford
 
-![](https://kent-map.github.io/kent/20c/images/spade MJC.jpg)
+![](https://kent-map.github.io/kent/20c/images/spade%20MJC.jpg)
 
 “This bus it was, this ruddy, venerable and immortal bus, that came down the Folkestone hill with unflinching deliberation, and trundled through Sandgate and Hythe, and out into the windy spaces of the Marsh, with Kipps and all his fortunes on its brow.” Kipps
 ##
@@ -124,18 +124,20 @@ Kent is a county of diverse landscapes, from its wild coastal marshes to the upl
 ##
 [**Seascapes**](/seascape)
 
-![](https://dev.visual-essays.app/thumbnail?url=https://raw.githubusercontent.com/kent-map/kent/main/seascape/images/Reculver towers and coast.jpg)
+![](https://dev.visual-essays.app/thumbnail?url=https://raw.githubusercontent.com/kent-map/kent/main/seascape/images/Reculver%20towers%20and%20coast.jpg)
 
 The Kentish coast, the Straits of Dover and the Goodwin Sands have inspired authors and artists throughout the centuries.
 
 ##
 [**Musical Peregrinations**](/music)
 
-![](https://dev.visual-essays.app/thumbnail?url=https://raw.githubusercontent.com/kent-map/kent/main/music/images/Beaney copy - Scaled and adjusted.jpg)
+![](https://dev.visual-essays.app/thumbnail?url=https://raw.githubusercontent.com/kent-map/kent/main/music/images/Beaney%20copy%20-%20Scaled%20and%20adjusted.jpg)
 
 Take a musical jaunt with the Canterbury Catch Club through Nineteenth Century Kent, but mind the roads.
 
 # Featured Authors
+
+# {.cards}
 
 ##
 [**Geoffrey Chaucer**](/14c/14c-chaucer)
