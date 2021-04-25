@@ -314,7 +314,7 @@
                 return atob(resp.content)
               }
             } else {
-              let resp = fetch(`${window.location.origin}${path}`)
+              let resp = await fetch(`${window.location.origin}${path}`)
               if (resp.ok) return await resp.text()
             }
             return null
