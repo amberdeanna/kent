@@ -215,8 +215,8 @@
 
       let head = document.querySelector('head')
       head.appendChild(makeLink(siteConfig.favicon || `${assetsBaseUrl}/images/favicon.svg`, 'icon'))
-      head.appendChild(makeLink(`${assetsBaseUrl}/css/main.css`))
-      head.appendChild(makeLink(`${assetsBaseUrl}/css/custom.css`))
+      head.appendChild(makeLink('https://kent-map.github.io/kent/css/main.css'))
+      head.appendChild(makeLink('/kent/css/custom.css'))
       document.title = siteConfig.title || 'Juncture'
 
       new Vue({
