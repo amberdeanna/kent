@@ -169,14 +169,14 @@
       if (window.location.hostname.indexOf('github.io') > 0) {
         isGhpSite = true;
         [acct, repo] = window.location.href.replace(/\.github\.io/,'').split('/').slice(2,4)
-        ref = '423655dbec8b52f7f23dffe90875d6e7ac2050b2'
+        ref = '527ceef1c20c435a8f4767b7e768679f255f83ad'
         // assetsBaseUrl = `https://${acct}.github.io/${repo}`
         assetsBaseUrl = `https://gitcdn.link/repo/${acct}/${repo}/${ref}`
         basePath = `/${repo}`
       } else {
         acct = 'jstor-labs'
         repo = 'juncture'
-        ref = '423655dbec8b52f7f23dffe90875d6e7ac2050b2'
+        ref = '527ceef1c20c435a8f4767b7e768679f255f83ad'
         // baseUrl = window.location.origin
         assetsBaseUrl = `https://gitcdn.link/repo/${acct}/${repo}/${ref}`
         basePath = ''
