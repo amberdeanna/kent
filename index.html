@@ -314,9 +314,10 @@
                 return atob(resp.content)
               }
             } else {
-              resp = fetch(`${window.location.origin}${path}`)
+              let resp = fetch(`${window.location.origin}${path}`)
               if (resp.ok) return await resp.text()
             }
+            return null
           },
 
           // Loads essay Markdown file
