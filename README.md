@@ -1,7 +1,6 @@
 <param ve-config title="Kent Digital Map"
        banner="/images/kent-map-header.jpg"
-       show-abstracts="true"
-       layout="index">
+       show-abstracts="true">
        
 # Welcome
 
