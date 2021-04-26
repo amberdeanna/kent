@@ -166,6 +166,7 @@
       assetsBaseUrl = window.location.origin
       basePath = ''
     } else {
+      console.log(window.location.hostname.indexOf('github.io'))
       if (window.location.hostname.indexOf('github.io') > 0) {
         isGhpSite = true
         [acct, repo] = window.location.href.replace(/\.github\.io/,'').split('/').slice(2,4)
