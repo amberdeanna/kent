@@ -946,7 +946,7 @@
     // Gets a list of available components
     async function getMergedComponentsList(root, acct, repo, ref, contentSource) {
       let componentsList = await getComponentsList(root, acct, repo, ref)
-      if (assetsBaseUrl !== contentSource.baseUrl) {
+      if (acct !== contentSource.acct && repo !== contentSource.repo) {
         let extras = await getComponentsList(root, contentSource.acct, contentSource.repo, contentSource.ref)
         componentsList = [...extras, ...componentsList]
       }
@@ -992,7 +992,7 @@
       let pathElems = []
       if (current.indexOf('http') === 0) {
         if (current.indexOf(window.location.origin) === 0) {
-          let pathElems = current.split('/').slice(3)
+          pathElems = current.split('/').slice(3)
         } else {
           return current
         }
