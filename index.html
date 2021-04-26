@@ -318,7 +318,7 @@
           async getMarkdown(path) {
             console.log(acct, repo, ref, baseUrl, basePath, contentSource)
             if (contentSource.acct) {
-              let resp = await fetch(`https://api.github.com/repos/${contentSource.acct}/${contentSource.repo}/contents${path}?ref=${contentSource.ref}`, {
+              let resp = await fetch(`https://api.github.com/repos/${contentSource.acct}/${contentSource.repo}/contents${path}?ref=${contentSource.ref || ref}`, {
                                       headers: { Authorization: `Token ${atob(unscopedToken)}` } })
               if (resp.ok) {
                 resp = await resp.json()
