@@ -159,7 +159,6 @@
 
     console.log(`pathname=${window.location.pathname} href=${window.location.href}`)
     console.log(window.location)
-    console.log(window.location.hostname.indexOf('github.io'))
     let qargs = window.location.href.indexOf('?') > 0 ? parseQueryString(window.location.href.split('?')[1]) : {}
     console.log('qargs', qargs)
 
@@ -169,7 +168,7 @@
     } else {
       console.log(window.location.hostname.indexOf('github.io'))
       if (window.location.hostname.indexOf('github.io') > 0) {
-        isGhpSite = true
+        isGhpSite = true;
         [acct, repo] = window.location.href.replace(/\.github\.io/,'').split('/').slice(2,4)
         ref = 'main'
         assetsBaseUrl = `https://${acct}.github.io/${repo}`
