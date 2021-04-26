@@ -883,11 +883,11 @@
     // Gets site config
     async function getSiteConfig() {
       let config
-      let resp = await fetch(`${contentSource.baseUrl}/config.yaml`)
+      let resp = await fetch(`${assetsBaseUrl}/config.yaml`)
       if (resp.ok) {
         config = YAML.parse(await resp.text())
       } else {
-        resp = await fetch(`${contentSource.baseUrl}/config.json`)
+        resp = await fetch(`${assetsBaseUrl}/config.json`)
         config = resp.ok ? await resp.json() : {}
       }
       ['banner', 'favicon'].forEach(attr => {
