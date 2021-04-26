@@ -13,5 +13,5 @@
     "css": "/css/kent.css",
     "acct": "kent-map",
     "repo": "kent",
-    "ref": "main"
+    "ref": "serverless"
 }

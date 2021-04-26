@@ -15,7 +15,7 @@ This site provides a set of themed essays about Kent, a county in South East Eng
 
 - author: Ken Moffat and Carolyn W. de la L. Oulton
 
-![](https://kent-map.github.io/kent/images/thumbnails/mobile-landscapes.jpg)
+![](/images/thumbnails/mobile-landscapes.jpg)
 
 You’ll need a map because there are no signposts ... There are witnesses of course, hundreds of them queueing up to tell you that they are the original Aunt Betsey, or Broadstairs fisherman, or Janet, or how sorry they are now for stealing that pie.
 
@@ -24,7 +24,7 @@ You’ll need a map because there are no signposts ... There are witnesses of co
 
 - author: Simone Blandford
 
-![](https://kent-map.github.io/kent/20c/images/spade%20MJC.jpg)
+![](/20c/images/spade%20MJC.jpg)
 
 “This bus it was, this ruddy, venerable and immortal bus, that came down the Folkestone hill with unflinching deliberation, and trundled through Sandgate and Hythe, and out into the windy spaces of the Marsh, with Kipps and all his fortunes on its brow.” Kipps
 ##
