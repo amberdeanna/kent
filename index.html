@@ -169,7 +169,7 @@
       if (window.location.hostname.indexOf('github.io') > 0) {
         isGhpSite = true;
         [acct, repo] = window.location.href.replace(/\.github\.io/,'').split('/').slice(2,4)
-        ref = 'main'
+        ref = 'serverless'
         assetsBaseUrl = `https://${acct}.github.io/${repo}`
         basePath = `/${repo}`
       } else {
