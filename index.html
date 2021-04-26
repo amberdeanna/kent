@@ -929,7 +929,7 @@
     // Gets a list of available components
     async function getComponentsList(root, acct, repo, ref) {
       console.log(`getComponentsList: root=${root} acct=${acct} repo=${repo} ref=${ref}`)
-      if (acct) {
+      if (ref) {
         let resp = await fetch(`https://api.github.com/repos/${acct}/${repo}/git/trees/${ref}`, {headers: {Authorization: `Token ${atob(unscopedToken)}`}})
         resp = await resp.json()
         resp = await fetch(resp.tree.find(item => item.path === root).url)
