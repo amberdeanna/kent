@@ -1,0 +1,33 @@
+title: Kent Maps Online
+tagline: Digital Maps
+banner: /images/Bleak_house_postcard.jpg
+favicon: /images/favicon.svg
+gaTrackingID": UA-148268745-1
+
+# When using a custom domain these fields must be updated to match
+# the account, repository name and branch (ref)
+acct: kent-map
+repo: kent
+ref: serverless
+
+######################################################
+# Defines options shown in the header navigation menu
+######################################################
+nav:
+- label: About
+  icon: info
+  path: /about
+- label: Help
+  icon: question
+  path: /docs
+#- label: Contact Us
+#  icon: envelope
+#  path: "/contact-us"
+
+# If the /contact-us path is defined for the nav menu a contact form will be enabled
+# The following information is used in the display and processing of the contact form
+# A valid toEmail address is required. Other fields are optional
+#contactForm:
+#  toEmail:
+#  - name@example.org
+#  subject: My Juncture site feedback
