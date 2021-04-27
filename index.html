@@ -189,6 +189,8 @@
         assetsBaseUrl = `https://gitcdn.link/repo/${acct}/${repo}/${ref}`
         baseUrl = `https://gitcdn.link/repo/${acct}/${repo}/${ref}`
         basePath = ''
+      } else {
+        basePath = ''
       }
     }
     console.log(`acct=${acct} repo=${repo} ref=${ref} assetsBaseUrl=${assetsBaseUrl} basePath=${basePath} isGhpSite=${isGhpSite}`)
