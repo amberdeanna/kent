@@ -6,9 +6,9 @@ customCSS: /css/custom.css
 
 # When using a custom domain these fields must be updated to match
 # the account and repository name
-acct: kent-map
-repo: kent
-ref: main
+#acct: kent-map
+#repo: kent
+#ref: main
 
 ######################################################
 # Defines options shown in the header navigation menu
@@ -25,9 +25,7 @@ nav:
 # The following information is used in the display and processing of the contact form.
 contactForm:
   toEmail:
-  - ron.snyder@ithaka.org
-  - carolyn.oulton@canterbury.ac.uk
-  - kent.maps@canterbury.ac.uk
+  - ae252@canterbury.ac.uk
   subject: Kent Digital Map Contact
 
 #######################################################
@@ -37,8 +35,7 @@ contactForm:
 iiifServer: https://iiif.juncture-digital.org
 
 siteAdmins:
-- rsnyder
-- DigiHum1
+- amberdeanna
 
 ######################################################
 # Optional credentials used for GitHub API and OAuth integration
